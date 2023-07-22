@@ -1,33 +1,44 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import './index.css';
+import "tailwindcss/tailwind.css";
+import './index.scss';
 import {appRouterObject} from './App';
 import reportWebVitals from './reportWebVitals';
 import axios from "axios";
-import {QueryClient, QueryClientProvider} from "@tanstack/react-query";
 import {RouterProvider} from "react-router-dom";
+import {ApolloClient, InMemoryCache, ApolloProvider} from "@apollo/client";
+import {API_HOST} from "./core/variables";
 
 axios.defaults.withCredentials = true;
 axios.defaults.timeout = 25000;
 
-const queryClient = new QueryClient({
-    defaultOptions: {
-        queries: {
-            refetchOnWindowFocus: false,
-            refetchOnMount: false,
-            useErrorBoundary: true,
-        }
-    }
-})
+// import {QueryClient, QueryClientProvider} from "@tanstack/react-query";
+// const queryClient = new QueryClient({
+//     defaultOptions: {
+//         queries: {
+//             refetchOnWindowFocus: false,
+//             refetchOnMount: false,
+//             useErrorBoundary: true,
+//         }
+//     }
+// })
+
+const client = new ApolloClient({
+    uri: `${API_HOST}/graphql`,
+    cache: new InMemoryCache(),
+});
+
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
 root.render(
   <React.StrictMode>
-      <QueryClientProvider client={queryClient}>
+      {/*<QueryClientProvider client={queryClient}>*/}
+      <ApolloProvider client={client}>
           <RouterProvider router={appRouterObject} />
-      </QueryClientProvider>
+      </ApolloProvider>
+      {/*</QueryClientProvider>*/}
   </React.StrictMode>
 );
 

@@ -1,10 +1,12 @@
 import React from 'react';
 import {createBrowserRouter, Navigate, Outlet, RouteObject, useRoutes} from "react-router-dom";
+
 import {ErrorBoundary} from "react-error-boundary";
 import {Toaster} from "react-hot-toast";
 import Authenticator from "./component/Authenticator";
 import LeftNavigatorProvider from "./component/LeftNavigatorProvider";
 import ErrorFallback from "./view/ErrorFallbackView";
+import TradeMain from "./view/trade/TradeMain";
 
 
 const Dashboard = () => {
@@ -21,7 +23,8 @@ const AuthRequiredRoutes = () => {
       path: "/",
       element: <Authenticator/>,
       children: [
-        { path: 'dashboard', element: <LeftNavigatorProvider element={<Dashboard />}/> },
+          { path: 'dashboard', element: <LeftNavigatorProvider element={<Dashboard />}/> },
+          { path: 'trade', element: <LeftNavigatorProvider element={<TradeMain />}/> },
         // {
         //   path: "channels",
         //   element: <LeftNavigatorProvider element={<ChannelMain/>}/>,
